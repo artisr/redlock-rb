@@ -143,6 +143,8 @@ module Redlock
       def load_scripts
         @unlock_script_sha = @redis.script(:load, UNLOCK_SCRIPT)
         @lock_script_sha = @redis.script(:load, LOCK_SCRIPT)
+      rescue Redis::CannotConnectError
+        false
       end
 
       def recover_from_script_flush
